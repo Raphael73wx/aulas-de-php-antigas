@@ -1,4 +1,5 @@
 <?php
+//xxxxx
 // $variaveis = $_GET ;
 // // echo $variaveis ['numero1'];
 // // verifica o conteudo de um array
