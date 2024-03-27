@@ -15,7 +15,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        Lista de ordem serviço
+                        Lista de Clientes 
                         <button class="btn btn-primary btn-sm float-end">
                          <i class="bi bi-plus-circle"></i> Novo</button>
                     </div>
@@ -23,14 +23,41 @@
                         <table class="table table-dark text-center">
                             <thead>
                                 <tr class="table-warning">
-                                    <th>ID</th>
-                                    <th>Clientes</th>
-                                    <th>Servicos</th>
-                                    <th>R$ Valor</th>
-                                    <th>Opções</th>
+                                    <th class="text-center">ID</th>
+                                    <th>Cliente</th>
+                                    <th class="text-center">cpf</th>
+                                    <th class="text-center">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                include('../aula.php/conexao_mysqli.php');
+                                $sql ="
+                                SELECT pk_cliente,nome,cpf
+                                FROM clientes
+                                ORDER BY nome
+                                ";
+
+                                $query = mysqli_query($conn,$sql);
+
+                                //verificar se encontrou registros no mysql
+                                if (mysqli_num_rows($query)>0) {
+                                    //laço de repetição para listar item a item
+                                    while ($row = mysqli_fetch_object($query)) {
+                                        echo'
+                                        <tr>
+                                        <td class="text-center"></td>
+                                        <td"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        </tr>
+                                        
+                                        ';
+                                    }
+                                }
+
+
+                                ?>
                                 <tr>
                                     <td>1</td>
                                     <td>Gluaco Luiz</td>
