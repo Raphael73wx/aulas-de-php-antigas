@@ -16,8 +16,8 @@
                 <div class="card">
                     <div class="card-header">
                         Lista de Clientes 
-                        <button class="btn btn-primary btn-sm float-end">
-                         <i class="bi bi-plus-circle"></i> Novo</button>
+                        <a href="form.php" class="btn btn-primary btn-sm float-end">
+                         <i class="bi bi-plus-circle"></i> Novo</a>
                     </div>
                     <div class="card-body">
                         <table class="table table-dark text-center">
@@ -35,7 +35,7 @@
                                 $sql ="
                                 SELECT pk_cliente,nome,cpf
                                 FROM clientes
-                                ORDER BY nome
+                                ORDER BY pk_cliente
                                 ";
 
                                 $query = mysqli_query($conn,$sql);
@@ -46,10 +46,20 @@
                                     while ($row = mysqli_fetch_object($query)) {
                                         echo'
                                         <tr>
-                                        <td class="text-center"></td>
-                                        <td"></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">'.$row->pk_cliente.'</td>
+                                        <td>'.$row->nome.'</td>
+                                        <td class="text-center">'.$row->cpf.'</td>
+                                        <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                               <i class="bi bi-gear-wide"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" onclick="if(confirm(\'Deseja realmente remover este registro\')){ window.location=\'remover.php?ref='.base64_encode($row->pk_cliente).'\'}"  href="#       "><i class="bi bi-trash3-fill"></i> apagar</a></li>
+                                                <li><a class="dropdown-item" href="form.php?ref='.base64_encode($row->pk_cliente).'"><i class="bi bi-pencil-fill"></i> editar</a></li>
+                                            </ul>
+                                        </div>
+                                        </td>
                                         </tr>
                                         
                                         ';
@@ -58,7 +68,7 @@
 
 
                                 ?>
-                                <tr>
+                                <!-- <tr>
                                     <td>1</td>
                                     <td>Gluaco Luiz</td>
                                     <td>
@@ -77,8 +87,8 @@
                                             </ul>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
+                                </tr> -->
+                                <!-- <tr>
                                     <td>2</td>
                                     <td>Raphael Willian</td>
                                     <td>
@@ -96,7 +106,7 @@
                                             </ul>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>

@@ -22,10 +22,21 @@ if ($_POST) {
     include('../aula.php/conexao_mysqli.php');
 
     //Montar a sintaxe sql que o PHP vai enviar ao Mysql
-    $sql = "
-    INSERT INTO clientes  (nome,cpf,whatsapp,email)
-    VALUES('$nome','$cpf','$whatsapp','$email') 
-    ";
+    if ($pk_cliente >0) {
+        $sql ="
+        UPDATE clientes SET
+        nome = '$nome',
+        cpf ='$cpf',
+        whatsapp ='$whatsapp',
+        email ='$email'
+        WHERE pk_cliente ='$pk_cliente'
+        ";
+    }else {
+        $sql = "
+        INSERT INTO clientes  (nome,cpf,whatsapp,email)
+        VALUES('$nome','$cpf','$whatsapp','$email') 
+        ";
+    }
     //enviar a sintaxe sql ao mysql
     $query = mysqli_query($conn,$sql);
 
