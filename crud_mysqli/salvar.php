@@ -1,4 +1,7 @@
 <?php
+
+ include("../aula.php/verificar_autenticidade.php");
+
 //verifica se esta vindo dados vai post
 if ($_POST) {
     //pegar informações vindas do formulario

@@ -1,4 +1,7 @@
 <?php
+ include("../aula.php/verificar_autenticidade.php");
+
+
 
 $pk_cliente = "";
 $nome = "";

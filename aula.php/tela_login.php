@@ -50,7 +50,7 @@
     <div class="container">
         <div class="row justify-content-center align-content-center">
             <div class="col-4">
-                <form action="post">
+                <form action="validar_login.php" method="post">
                     <div class="card">
                         <div class="card-header">
                             Tela Login
@@ -58,11 +58,11 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="email" class="form-label">email</label>
-                                <input type="email" class="form-control" name="email">
+                                <input required type="email" class="form-control" name="email">
                             </div>
                             <div class="mb-3">
                                 <label for="senha" class="form-label">senha</label>
-                                <input type="password" class="form-control" name="senha">
+                                <input required  type="password" class="form-control" name="senha">
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary">Entar</button>

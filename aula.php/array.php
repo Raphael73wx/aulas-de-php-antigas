@@ -1,5 +1,5 @@
     <?php
-
+    include("../verificar_autenticidade.php");
 
     $array = array();
 
