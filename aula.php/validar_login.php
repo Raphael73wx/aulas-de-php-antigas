@@ -29,14 +29,21 @@ if ($_POST) {
 
         //verificar se encontrou algum registro na tabela
         if(mysqli_num_rows($query)>0){
-         
+            //Organiza dados do banco  como objetos na variavel $row
+            $row = mysqli_fetch_object($query);
+
             //CRIAR SESSÃO  PARA VARIÁVEL GLOBAL
           session_start();
             
           //declaro variável global informando que usuário 
           //está autenticando corretamente
             $_SESSION["autenticado"] = true;
-
+            $_SESSION["pk_usuario"] = $row->pk_usuario;
+            $_SESSION["nome_usuario"] = $row->nome;
+            $_SESSION["tempo_login"] = time();
+            
+            
+            
           header('location: ../crud_mysqli');
           exit;
         }

@@ -1,32 +1,3 @@
-<!-- 
-// xxxx
-// $variaveis = $_GET ;
-// // echo $variaveis ['numero1'];
-// // verifica o conteudo de um array
-// var_dump($variaveis);
-// $numero1 = $_POST["numero1"] ?? 0;
-// $numero2 = $_POST["numero2"] ?? 0;
-// $operador = $_POST["operador"]??"somar";
-
-// if ($operador == "somar"){
-//     $resultado = $numero1 + $numero2;
-// }
-// elseif ($operador == "dividir") {
-//     if($numero2 == 0 ){
-//         echo"<script>
-//         alert('impossivel divisão por zero');
-//         exit() ;
-//         </script>";
-//     } else{
-//         $resultado = $numero1 / $numero2;
-//     }
-// }
-// elseif ($operador == "subtrair") {
-//     $resultado = $numero1 - $numero2;
-// }
-// else{
-//     $resultado = $numero1 * $numero2;
-// } -->
 
 
 <!DOCTYPE html>

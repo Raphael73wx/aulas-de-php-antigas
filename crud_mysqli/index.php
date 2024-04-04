@@ -89,45 +89,6 @@ include("../aula.php/verificar_autenticidade.php");
 
 
                                 ?>
-                                <!-- <tr>
-                                    <td>1</td>
-                                    <td>Gluaco Luiz</td>
-                                    <td>
-                                        Manutencão de micro <br>
-                                        Configuração de roteador
-                                    </td>
-                                    <td>R$ 500,00</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-gear-wide"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash3-fill"></i> apagar</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-fill"></i> editar</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr> -->
-                                <!-- <tr>
-                                    <td>2</td>
-                                    <td>Raphael Willian</td>
-                                    <td>
-                                        Instalação de software
-                                    </td>
-                                    <td>R$ 150,00</td>
-                                    <td>
-                                    <div class="dropdown">
-                                            <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-gear-wide"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash3-fill"></i> apagar</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-fill"></i> editar</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>
