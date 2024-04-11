@@ -1,5 +1,5 @@
 <?php
-include("../aula.php/verificar_autenticidade.php");
+include("../verificar_autenticidade.php");
 ?>
 
 
@@ -22,7 +22,7 @@ include("../aula.php/verificar_autenticidade.php");
                         <i class="bi bi-bootstrap fs-2"></i> 
                     </div>
                     <div class="col text-end">
-                        <a href="../aula.php/logout.php" class="btn btn-dark">
+                        <a href="../logout.php" class="btn btn-dark">
                             Sair
                             <i class="bi bi-box-arrow-right"></i>
                         </a>
@@ -52,7 +52,7 @@ include("../aula.php/verificar_autenticidade.php");
                             </thead>
                             <tbody>
                                 <?php
-                                include('../aula.php/conexao_mysqli.php');
+                                include('../conexao_mysqli.php');
                                 $sql = "
                                 SELECT pk_cliente,nome,cpf
                                 FROM clientes

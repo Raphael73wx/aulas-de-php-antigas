@@ -1,6 +1,6 @@
 <?php
 
- include("../aula.php/verificar_autenticidade.php");
+include("../verificar_autenticidade.php");
 
 //verifica se esta vindo dados vai post
 if ($_POST) {
@@ -22,7 +22,7 @@ if ($_POST) {
         exit;
     }
     //arquivo de conexão ao banco de dados
-    include('../aula.php/conexao_mysqli.php');
+    include('../conexao_mysqli.php');
 
     //Montar a sintaxe sql que o PHP vai enviar ao Mysql
     if ($pk_cliente >0) {
@@ -40,24 +40,29 @@ if ($_POST) {
         VALUES('$nome','$cpf','$whatsapp','$email') 
         ";
     }
-    //enviar a sintaxe sql ao mysql
+    try {
+     //enviar a sintaxe sql ao mysql
     $query = mysqli_query($conn,$sql);
-
-    //verifica se cadastrou corretamente
-    if ($query) {
-        $msg = "Registro salvo com sucesso!";
-    }
-    else {
-        $msg = "Error:". mysqli_error($conn);
-    }
+        
+    }catch(Exception $e) {
+        if (mysqli_errno($conn) == 1062) {
+            $msg = "Os campos ja preechidos ja foram cadastrados.";
+        }
     echo"
     <script>
     alert('$msg');
     window.location='./';
     </script>
     ";
-
-} else {
+    exit;
+}  // verifica se cadastrou corretamente
+if ($query) {
+  $msg = "Registro salvo com sucesso!";
+}
+else {
+  $msg = "Error:". mysqli_error($conn);
+}
+}else {
     //redireciona o usuario para a pagina principal do diretório
     header("location: ./");
     exit;

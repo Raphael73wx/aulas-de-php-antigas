@@ -1,18 +1,32 @@
 <?php
- include("../aula.php/verificar_autenticidade.php");
+include("../verificar_autenticidade.php");
 
 if (isset($_GET['ref'])) {
     $pk_cliente = base64_decode(trim($_GET['ref']));
 
-    include('../aula.php/conexao_mysqli.php');
+    include('../conexao_mysqli.php');
 
     $sql = "
     DELETE FROM clientes
     WHERE pk_cliente = '$pk_cliente'
     ";
     
-    $query = mysqli_query($conn, $sql);
-
+    try {
+        //enviar a sintaxe sql ao mysql
+       $query = mysqli_query($conn,$sql);
+           
+       }catch(Exception $e) {
+           if (mysqli_errno($conn) == 1451) {
+               $msg = "Error: Existem Ordem de servico atribuídas a este cliente!";
+           }
+       echo"
+       <script>
+       alert('$msg');
+       window.location='./';
+       </script>
+       ";
+       exit;
+    }
     //verifica se cadastrou corretamente
     if ($query) {
         $msg = "Registro removido com sucesso!";
@@ -29,3 +43,4 @@ if (isset($_GET['ref'])) {
 }
 header("location: ./");
 exit;
+

@@ -44,7 +44,7 @@ if ($_POST) {
             
             
             
-          header('location: ../crud_mysqli');
+          header('location: ./crud_mysqli/index.php');
           exit;
         }
         else{

@@ -1,5 +1,5 @@
 <?php
- include("../aula.php/verificar_autenticidade.php");
+include("../verificar_autenticidade.php");
 
 
 
@@ -12,7 +12,7 @@ $email = "";
 //VERIFICA SE EXISTE UMA VÁRIAVEL NA URL CHAMADA "REF"
 if (isset($_GET['ref'])) {
     $pk_cliente = base64_decode(trim($_GET['ref']));
-    include('../aula.php/conexao_mysqli.php');
+    include('../conexao_mysqli.php');
     $sql ="
     select * 
     from clientes
