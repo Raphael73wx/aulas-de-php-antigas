@@ -9,13 +9,13 @@ if ($_POST) {
     if (empty($_POST["email"]) || empty($_POST["senha"])) {
         $_SESSION["msg"] = "Por favor, preencha os campos obrigatórios!";
         $_SESSION["tipo"] = "warning";
+        $_SESSION["title"] = "ops!";
 
         // var_dump($_SESSION);exit;
 
         header("location: Login.php");
         exit;
-    }
-    else {
+    } else {
         include('conexao-pdo.php');
         //recuperar informações do formulário login 
         $email = trim($_POST["email"]);
@@ -29,8 +29,8 @@ if ($_POST) {
         AND senha LIKE :senha
         ");
 
-        $stmt->bindParam(':email',$email);
-        $stmt->bindParam(':senha',$senha);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':senha', $senha);
 
         $stmt->execute();
         //VERIFICA SE ENCONTROU ALGUM REGISTRO NA TABELA
@@ -41,21 +41,26 @@ if ($_POST) {
             //DECLARO VARIAVEL GLOBAL INFORMANDO QUE USUARIOE ESTA AUTENTICADO
             $_SESSION["autenticado"] = true;
             $_SESSION["pk_usuario"] = $row->pk_usuario;
-            $_SESSION["nome_usuario"] = $row->nome;
+             
+            //transforma string em array, aonde tiver espaco ""
+            $nome_usuario =  explode(" ", $row->nome);
+            
+            //concatena o primeiro nome com o sobrenome do usuario
+            $_SESSION["nome_usuario"] = $nome_usuario[0] ." ". end($nome_usuario);
             $_SESSION["tempo_login"] = time();
 
-        }
-        else{
+            header('Location: ./');
+            exit;
+        } else {
             $_SESSION["msg"] = 'E-mail e/ou senha invalidos!';
             $_SESSION["tipo"] = 'error';
+            $_SESSION["title"] = 'ops!';
 
             header('Location: login.php');
             exit;
         }
     }
-}else {
-    header('Location: ./tela_login.php');
+} else {
+    header('Location: ./login.php');
     exit;
 }
-
-?>
