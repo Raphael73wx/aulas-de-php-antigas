@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+define("caminhoURL","http://localhost/raphael/dashboard");
+
+
+
 if ($_SESSION["autenticado"] != true) {
    //destruir qualquer sessão existente
    session_destroy();

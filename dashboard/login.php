@@ -1,5 +1,16 @@
 <?php
 session_start();
+
+if (empty($_COOKIE["email"]) || empty($_COOKIE["senha"])) {
+    $checked = "";
+    $email = "";
+    $senha = "";
+} else {
+    $checked = "checked";
+    $email = $_COOKIE["email"];
+    $senha = $_COOKIE["senha"];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,19 +25,14 @@ session_start();
     <!-- Font Awesome -->
     <link rel="stylesheet" href="dist/plugins/fontawesome-free/css/all.min.css">
     <!-- sweet Alert 2  -->
-     <link rel="stylesheet" href="dist/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="dist/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="dist/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition login-page">
-<?php
-// session_start();
-
-// var_dump($_SESSION);
-?>
+<body class="hold-transition login-page dark-mode">
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -38,7 +44,7 @@ session_start();
 
                 <form action="validar-login.php" method="post">
                     <div class="input-group mb-3">
-                        <input required type="email" class="form-control" placeholder="Email" name="email">
+                        <input value="<?php echo $email; ?>" required type="email" class="form-control" placeholder="Email" name="email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -46,7 +52,7 @@ session_start();
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input  type="password" class="form-control" placeholder="Senha" name="senha">
+                        <input value="<?php echo $senha; ?>" required type="password" class="form-control" placeholder="Senha" name="senha">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -56,7 +62,7 @@ session_start();
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" id="remember" name="remember">
+                                <input <?php echo $checked;?> type="checkbox" id="remember" name="remember">
                                 <label for="remember">
                                     lembrar-me
                                 </label>

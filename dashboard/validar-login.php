@@ -16,10 +16,13 @@ if ($_POST) {
         header("location: Login.php");
         exit;
     } else {
-        include('conexao-pdo.php');
         //recuperar informações do formulário login 
-        $email = trim($_POST["email"]);
-        $senha = trim($_POST["senha"]);
+        $email = trim($_POST['email']);
+        $senha = trim($_POST['senha']);
+        $remember = $_POST['remember'] ?? "off";
+
+
+        include('conexao-pdo.php');
 
         //montar sintaxe sql para consultar no banco de dados 
         $stmt = $coon->prepare("    
@@ -35,6 +38,15 @@ if ($_POST) {
         $stmt->execute();
         //VERIFICA SE ENCONTROU ALGUM REGISTRO NA TABELA
         if ($stmt->rowCount() > 0) {
+            //verifica se o botaão lembrar de mim foi ativado
+            if ($remember == "on") {
+                setcookie("email",$email);
+                setcookie("senha",$senha);
+            }else{
+                setcookie("email");
+                setcookie("senha");
+            }
+
             //ORGANIZA OS DADOS DO BANCO COMO OBJETOS NA VARIAVEL $ROW
             $row = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -43,7 +55,7 @@ if ($_POST) {
             $_SESSION["pk_usuario"] = $row->pk_usuario;
              
             //transforma string em array, aonde tiver espaco ""
-            $nome_usuario =  explode(" ", $row->nome);
+            $nome_usuario =  explode(" ",$row->nome);
             
             //concatena o primeiro nome com o sobrenome do usuario
             $_SESSION["nome_usuario"] = $nome_usuario[0] ." ". end($nome_usuario);
