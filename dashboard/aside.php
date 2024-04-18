@@ -1,6 +1,6 @@
 <aside id="asideMenu" class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="./" class="brand-link">
+    <a href="<?php echo caminhoURL;?>" class="brand-link">
       <img src="<?php echo caminhoURL?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">S³</span>
     </a>
@@ -25,7 +25,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="./" class="nav-link active">
+            <a href="<?php echo caminhoURL;?>" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Pagina inicial

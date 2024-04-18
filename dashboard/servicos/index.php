@@ -30,6 +30,7 @@ include('../conexao-pdo.php');
   <link rel="stylesheet" href="../dist/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 </head>
 ../
+
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
 
@@ -37,6 +38,10 @@ include('../conexao-pdo.php');
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
+    <!-- Main Sidebar Container -->
+    <?php
+    include('../aside.php');
+    ?>
 
     <!-- Navbar -->
     <?php
@@ -44,113 +49,46 @@ include('../conexao-pdo.php');
     ?>
     <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <?php
-    include('../aside.php');
-    ?>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm">
-              <h1 class="m-0">Página inicial</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Dashboard v1</li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
-
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>Ordens de serviço</p>
-                </div>
-                <div class="icon">
-                  <i class="ion bi bi-cash-coin"></i>
-                </div>
-                <a href="../ordem-servico" class="small-box-footer">ver todos <i class=" bi bi-plus-circle"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                  <p>O.S concluídas</p>
-                </div>
-                <div class="icon">
-                  <i class="bi bi-graph-up-arrow"></i>
-                </div>
-                <a href="../ordens-servico" class="small-box-footer">ver todas <i class=" bi bi-plus-circle"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>44</h3>
-
-                  <p>Clientes</p>
-                </div>
-                <div class="icon">
-                  <i class="bi bi-people"></i>
-                </div>
-                <a href="../clientes" class="small-box-footer">ver todos <i class="bi bi-plus-circle"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>65</h3>
-
-                  <p>Serviços</p>
-                </div>
-                <div class="icon">
-                  <i class="bi bi-tools"></i>
-                </div>
-                <a href="../servicos" class="small-box-footer">ver todos <i class="bi bi-plus-circle"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col">
-              <div class="card card-success">
+              <div class="card card-danger card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Bar Chart</h3>
-
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
+                  <h3 class="card-title">Lista de Serviços</h3>
                 </div>
                 <div class="card-body">
-                  <div class="chart">
-                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td>CÓD</td>
+                        <td>Serviços</td>
+                        <td>opcões</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <td>1</td>
+                      <td>Manutenção de micro</td>
+                      <td>
+                        <div class="btn-group">
+                          <button class="btn btn-default dropdown-toggle dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="bi bi-tools"></i>
+                          </button>
+                          <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="#">
+                              <i class="bi bi-pencil"></i>Editar
+                            </a>
+                            <a class="dropdown-item" href="#">
+                              <i class="bi bi-trash"></i>Remover
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                    </tbody>
+                  </table>
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -190,79 +128,28 @@ include('../conexao-pdo.php');
   <script src="../dist/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
   <!-- overlayScrollbars -->
   <script src="../dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- ChartJS -->
-  <script src="../dist/plugins/chart.js/Chart.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.js"></script>
 
   <script>
-    
     $(function() {
 
       $("#theme-mode").click(function() {
         //pegar atributo class objeto
-         var classMode = $("#theme-mode").attr("class") 
-            if (classMode == "fas fa-sun") {
-              $("body").removeClass("dark-mode");
-              $("#theme-mode").attr("class","fas fa-moon");
-              $("#navtopo").attr("class","main-header navbar navbar-expand navbar-white navbar-light");
-              $("#asideMenu").attr("class","main-sidebar sidebar-light-primary elevation-4");
-            }else{
-              $("body").addClass("dark-mode");
-              $("#theme-mode").attr("class","fas fa-sun");
-              $("#navtopo").attr("class","main-header navbar navbar-expand nav-black navbar-dark");
-              $(" ").attr("class","main-sidebar sidebar-dark-primary elevation-4")
-            }
-        });
-       //-------------
-      //- BAR CHART -
-     //-------------
-     var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label               : 'Digital Goods',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label               : 'Electronics',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-      ]
-    }
+        var classMode = $("#theme-mode").attr("class")
+        if (classMode == "fas fa-sun") {
+          $("body").removeClass("dark-mode");
+          $("#theme-mode").attr("class", "fas fa-moon");
+          $("#navtopo").attr("class", "main-header navbar navbar-expand navbar-white navbar-light");
+          $("#asideMenu").attr("class", "main-sidebar sidebar-light-primary elevation-4");
+        } else {
+          $("body").addClass("dark-mode");
+          $("#theme-mode").attr("class", "fas fa-sun");
+          $("#navtopo").attr("class", "main-header navbar navbar-expand nav-black navbar-dark");
+          $(" ").attr("class", "main-sidebar sidebar-dark-primary elevation-4")
+        }
+      });
 
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
     })
   </script>
 </body>
