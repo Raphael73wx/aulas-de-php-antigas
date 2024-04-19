@@ -3,7 +3,7 @@
 define('username','root');
 define('password','');
 try {
-    $coon = new PDO('mysql:host=localhost;
+    $conn = new PDO('mysql:host=localhost;
     dbname=ordem_servico',
     username,
     password

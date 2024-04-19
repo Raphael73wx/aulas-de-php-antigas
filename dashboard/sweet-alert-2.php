@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // ISSET = VERIFICA SE AS VARIÁVEIS FORAM CRIADAS 
 if (isset($_SESSION["tipo"]) && isset($_SESSION["title"]) && isset($_SESSION["msg"])) {
     echo "
