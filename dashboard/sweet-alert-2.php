@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+@session_start();
 
 // ISSET = VERIFICA SE AS VARIÁVEIS FORAM CRIADAS 
 if (isset($_SESSION["tipo"]) && isset($_SESSION["title"]) && isset($_SESSION["msg"])) {
@@ -11,11 +11,11 @@ if (isset($_SESSION["tipo"]) && isset($_SESSION["title"]) && isset($_SESSION["ms
             toast: false,
             position:'center',
             showConfirmButton: false,
-            timer: 1000
+            timer: 5000
        });
        Toast.fire({
         icon: '".$_SESSION["tipo"]."',
-        title: '".$_SESSION["title"]."'
+        title: '".$_SESSION["title"]."',
         text: '".$_SESSION["msg"]."'
        });
     

@@ -59,7 +59,7 @@ include('../conexao-pdo.php');
             <div class="col">
               <div class="card card-danger card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Lista de Serviços</h3>
+                  <h3 class="card-title">Lista de CLientes</h3>
                   <a href="./form.php" class="btn bt-sm btn-info float-right rounded-circle">
                     <i class="bi bi-plus"></i>
                   </a>
@@ -69,16 +69,18 @@ include('../conexao-pdo.php');
                     <thead>
                       <tr>
                         <td>CÓD</td>
-                        <td>Serviços</td>
-                        <td>opcões</td>
+                        <td>CLientes</td>
+                        <td>CPF</td>
+                        <td>WHATSAPP</td>
+                        <td>EMAIL</td>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                       $sql = "
-                     SELECT pk_servico,servico
-                     FROM servicos
-                     ORDER BY servico
+                     SELECT *
+                     FROM clientes
+                     ORDER BY pk_cliente
                       ";
                       //prepara a sintaxe na conexão
                       $stmt = $coon->prepare($sql);
@@ -90,18 +92,21 @@ include('../conexao-pdo.php');
                       foreach ($dados as $row) {
                         echo '
                       <tr>
-                      <td>' . $row->pk_servico . '</td>
-                      <td>' . $row->servico . '</td>
+                      <td>' . $row->PK_CLIENTE . '</td>
+                      <td>' . $row->NOME . '</td>
+                      <td>' . $row->CPF . '</td>
+                      <td>' . $row->WHATSAPP . '</td>
+                      <td>' . $row->EMAIL . '</td>
                       <td>
                         <div class="btn-group">
                           <button class="btn btn-default dropdown-toggle dropdown-toggle" type="button" data-toggle="dropdown">
                             <i class="bi bi-tools"></i>
                           </button>
                           <div class="dropdown-menu" role="menu">
-                            <a class="dropdown-item" href="form.php?ref=' . base64_encode($row->pk_servico) . '">
+                            <a class="dropdown-item" href="form.php?ref=' . base64_encode($row->PK_CLIENTE) . '">
                               <i class="bi bi-pencil"></i>Editar
                             </a>
-                            <a class="dropdown-item" href="remover.php?ref='.base64_encode($row->pk_servico).'">
+                            <a class="dropdown-item" href="remover.php?ref='.base64_encode($row->PK_CLIENTE).'">
                               <i class="bi bi-trash"></i>Remover
                             </a>
                           </div>

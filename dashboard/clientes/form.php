@@ -3,25 +3,32 @@ include('../verificar-autenticidade.php');
 include('../conexao-pdo.php');
 
 if (empty($_GET["ref"])) {
-    $pk_servico = "";
-    $servico = "";
+    $PK_CLIENTE = "";
+    $NOME = "";
+    $CPF = "";
+    $WHATSAPP = "";
+    $EMAIL = "";
 }else{
-    $pk_servico = base64_decode(trim($_GET["ref"]));
+    $PK_CLIENTE= base64_decode(trim($_GET["ref"]));
     $sql ="
-    SELECT pk_servico, servico
-    FROM servicos
-    WHERE pk_servico = :pk_servico 
+    SELECT *
+    FROM CLIENTES
+    WHERE PK_CLIENTE =:PK_CLIENTE
     ";
     //prepara a sintaxe
     $stmt = $coon->prepare($sql);
     //substitui a string :pk+servico pela váriavel $pk_servico
-    $stmt->bindParam(':pk_servico',$pk_servico);
+    $stmt->bindParam(':PK_CLIENTE',$PK_CLIENTE);
     //executa a sintaxe final do MYSQL
     $stmt->execute();
     //verifica se encontrou algum registro no banco de dados
     if ($stmt->rowCount() > 0 ) {
         $dado = $stmt->fetch(PDO::FETCH_OBJ);
-        $servico = $dado->servico;
+        $NOME = $dado->NOME;
+        $CPF = $dado->CPF;
+        $WHATSAPP = $dado->WHATSAPP;
+        $EMAIL = $dado->EMAIL;
+
 
     }else {
         $_SESSION["tipo"] = 'error';
@@ -59,6 +66,8 @@ if (empty($_GET["ref"])) {
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="../dist/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 ../
 
@@ -96,11 +105,23 @@ if (empty($_GET["ref"])) {
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <label for="pk_servico" class="form-label">Cód</label>
-                                                <input readonly required type="text" class="form-control" name="pk_servico" id="pk_servico" value="<?php echo $pk_servico; ?>">
+                                                <input readonly required type="text" class="form-control" name="PK_CLIENTE" id="PK_CLIENTE" value="<?php echo $PK_CLIENTE; ?>">
                                             </div>
-                                            <div class="col">
-                                                <label for="servico" class="form-label">Serviço</label>
-                                                <input type="text" required class="form-control" id="servico" name="servico" value="<?php echo $servico; ?>">
+                                            <div class="col-md-3">
+                                                <label for="servico" class="form-label">Cliente</label>
+                                                <input type="text" required class="form-control" id="NOME" name="NOME" value="<?php echo $NOME; ?>">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="servico" class="form-label">CPF</label>
+                                                <input type="text" required class="form-control" id="CPF" name="CPF" value="<?php echo $CPF; ?>">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label for="servico" class="form-label">whatsapp</label>
+                                                <input type="text" required class="form-control" id="WHATSAPP" minlength="13" name="WHATSAPP" value="<?php echo $WHATSAPP; ?>"required>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="servico" class="form-label">Email</label>
+                                                <input type="email" required class="form-control" id="EMAIL" name="EMAIL" value="<?php echo $EMAIL; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -153,6 +174,17 @@ if (empty($_GET["ref"])) {
     <script src="../dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.js"></script>
+    <script>
+        var options = {
+            onKeyPress: function(whatsapp, e, field, options) {
+                var masks = ['(00) 0000-000#', '(00) 00000-0000'];
+                var mask = (whatsapp.length > 14) ? masks[1] : masks[0];
+                $('#whatsapp').mask(mask, options);
+            }
+        };
+        $('#whatsapp').mask('(00) 0000-000#', options);
+    </script>
+
 
     <script>
         $(function() {

@@ -21,14 +21,14 @@ if ($_POST) {
              INSERT INTO servicos (servico)
              VALUES(:servico)
              ";
-                $stmt = $conn->prepare($sql);
+                $stmt = $coon->prepare($sql);
                 $stmt->bindParam(':servico', $servico);
             } else {
                 $sql = "
             UPDATE servicos SET servico = :servico 
             WHERE pk_servico = :pk_servico
             ";
-                $stmt = $conn->prepare($sql);
+                $stmt = $coon->prepare($sql);
                 $stmt->bindParam(':pk_servico', $pk_servico);
                 $stmt->bindParam(':servico', $servico);
             }
@@ -44,7 +44,7 @@ if ($_POST) {
         } catch (PDOException $ex) {
             $_SESSION["tipo"] = 'error';
             $_SESSION["title"] = 'Ops!';
-            $_SESSION["msg"] = $ex;
+            $_SESSION["msg"] =  $ex->getMessage();
             header("location: ./");
             exit;
         }
