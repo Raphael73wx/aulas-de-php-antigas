@@ -59,7 +59,7 @@ include('../conexao-pdo.php');
             <div class="col">
               <div class="card card-danger card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Lista de CLientes</h3>
+                  <h3 class="card-title">Lista de O.S</h3>
                   <a href="./form.php" class="btn bt-sm btn-info float-right rounded-circle">
                     <i class="bi bi-plus"></i>
                   </a>
@@ -72,42 +72,54 @@ include('../conexao-pdo.php');
                         <td>CLiente</td>
                         <td>data inicio</td>
                         <td>data termino</td>
+                        <td>Valor total</td>
                         <td>Botões</td>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                       $sql = "
-                     SELECT *
+                     SELECT pk_ordem_servico,
+                     DATE_FORMAT(data_inicio,'%d/%m/%Y')data_inicio,
+                     DATE_FORMAT(data_fim,'%d/%m/%Y')data_fim,
+                     FORMAT(valor_total,2,'de_DE')valor_total,
+                     nome
                      FROM ordens_servicos
-                     ORDER BY pk_ordem_servico
+                     JOIN clientes ON fk_cliente = pk_cliente 
+                     ORDER BY data_inicio DESC
                       ";
+                      try {
+                        //prepara a sintaxe na conexão
+                        $stmt = $coon->prepare($sql);
+                        //executa o comando MYSQL
+                        $stmt->execute();
+                        //recebe as informações vindas do MYSQL
+                        $dados = $stmt->fetchAll(PDO::FETCH_OBJ);
+                        //laço de repetição para printar informações
 
-                      //prepara a sintaxe na conexão
-                      $stmt = $coon->prepare($sql);
-                      //executa o comando MYSQL
-                      $stmt->execute();
-                      //recebe as informações vindas do MYSQL
-                      $dados = $stmt->fetchAll(PDO::FETCH_OBJ);
-                      //laço de repetição para printar informações
+                        
+                        //uma outra opcao para mudar a data
+                        // date('d/m/Y',strtotime($row->data_fim))
 
-                      foreach ($dados as $row ) {
-                        echo '
+
+                        foreach ($dados as $row) {
+                          echo '
                       <tr>
-                      <td>' . $row->PK_ORDEM_SERVICO. '</td>
-                      <td>' . $row->asdasd. '</td>
-                      <td>' . $row->DATA_INICIO . '</td>
-                      <td>' . $row->DATA_FIM . '</td>
+                      <td>' . $row->pk_ordem_servico . '</td>
+                      <td>' . $row->nome . '</td>
+                      <td>' . $row->data_inicio. '</td>
+                      <td>' . $row->data_fim . '</td>
+                      <td>' . $row->valor_total . '</td>
                       <td>
                         <div class="btn-group">
                           <button class="btn btn-default dropdown-toggle dropdown-toggle" type="button" data-toggle="dropdown">
                             <i class="bi bi-tools"></i>
                           </button>
                           <div class="dropdown-menu" role="menu">
-                            <a class="dropdown-item" href="form.php?ref=' . base64_encode($row->PK_CLIENTE) . '">
+                            <a class="dropdown-item" href="form.php?ref=' . base64_encode($row->pk_ordem_servico) . '">
                               <i class="bi bi-pencil"></i>Editar
                             </a>
-                            <a class="dropdown-item" href="remover.php?ref='.base64_encode($row->PK_CLIENTE).'">
+                            <a class="dropdown-item" href="remover.php?ref=' . base64_encode($row->pk_ordem_servico) . '">
                               <i class="bi bi-trash"></i>Remover
                             </a>
                           </div>
@@ -116,10 +128,13 @@ include('../conexao-pdo.php');
                       
                       </tr>
                       ';
+                        }
+                      } catch (Exception $ex) {
+                        $_SESSION["tipo"] = "error";
+                        $_SESSION["title"] = "Ops!";
+                        $_SESSION["msg"] = $ex->getMessage();
                       }
-
                       ?>
-
                     </tbody>
                   </table>
                 </div>
@@ -170,8 +185,8 @@ include('../conexao-pdo.php');
   include("../sweet-alert-2.php");
   ?>
 
- 
- 
+
+
   <script>
     $(function() {
 

@@ -3,31 +3,38 @@ include('../verificar-autenticidade.php');
 include('../conexao-pdo.php');
 
 if (empty($_GET["ref"])) {
-    $PK_CLIENTE = "";
-    $NOME = "";
-    $CPF = "";
-    $WHATSAPP = "";
-    $EMAIL = "";
+    $pk_ordem_servico = "";
+    $nome = "";
+    $cpf = "";
+    $data_ordem_servico = "";
+    $data_inicio = "";
+    $data_fim = "";
 } else {
-    $PK_CLIENTE = base64_decode(trim($_GET["ref"]));
+    $pk_ordem_servico = base64_decode(trim($_GET["ref"]));
     $sql = "
-    SELECT *
-    FROM CLIENTES
-    WHERE PK_CLIENTE =:PK_CLIENTE
+    SELECT pk_ordem_servico,
+    data_ordem_servico,
+    data_inicio,
+    data_fim,
+    nome,cpf
+    FROM ordens_servicos
+    JOIN clientes on pk_cliente = fk_cliente
+    WHERE pk_ordem_servico =:pk_ordem_servico
     ";
     //prepara a sintaxe
     $stmt = $coon->prepare($sql);
     //substitui a string :pk+servico pela váriavel $pk_servico
-    $stmt->bindParam(':PK_CLIENTE', $PK_CLIENTE);
+    $stmt->bindParam(':pk_ordem_servico', $pk_ordem_servico);
     //executa a sintaxe final do MYSQL
     $stmt->execute();
     //verifica se encontrou algum registro no banco de dados
     if ($stmt->rowCount() > 0) {
         $dado = $stmt->fetch(PDO::FETCH_OBJ);
-        $NOME = $dado->NOME;
-        $CPF = $dado->CPF;
-        $WHATSAPP = $dado->WHATSAPP;
-        $EMAIL = $dado->EMAIL;
+        $data_ordem_servico = $dado->data_ordem_servico;
+        $cpf = $dado->cpf;
+        $nome = $dado->nome;
+        $data_fim = $dado->data_fim;
+        $data_inicio = $dado->data_inicio;
     } else {
         $_SESSION["tipo"] = 'error';
         $_SESSION["title"] = 'Ops!';
@@ -102,29 +109,29 @@ if (empty($_GET["ref"])) {
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <label for="pk_servico" class="form-label">Cód</label>
-                                                <input readonly required type="text" class="form-control" name="PK_CLIENTE" id="PK_CLIENTE" value="<?php echo $PK_CLIENTE; ?>">
+                                                <input readonly required type="text" class="form-control" name="pk_ordem_servico" id="pk_ordem_servico" value="<?php echo $pk_ordem_servico; ?>">
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="servico" class="form-label">CPF</label>
-                                                <input type="text" required class="form-control" id="NOME" name="NOME" value="<?php echo $NOME; ?>">
+                                                <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>">
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="servico" class="form-label">Nome</label>
-                                                <input type="text" required class="form-control" id="CPF" name="CPF" value="<?php echo $CPF; ?>">
+                                                <input type="text" required class="form-control" id="nome" name="nome" value="<?php echo $nome; ?>">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label for="pk_servico" class="form-label">Data O.S</label>
-                                                <input required type="date" class="form-control" name="PK_CLIENTE" id="PK_CLIENTE" value="<?php echo $PK_CLIENTE; ?>">
+                                                <input required type="date" class="form-control" name="data_ordem_servico" id="data_ordem_servico" value="<?php echo $data_ordem_servico; ?>">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="servico" class="form-label">Data início</label>
-                                                <input type="date" required class="form-control" id="NOME" name="NOME" value="<?php echo $NOME; ?>">
+                                                <input type="date" required class="form-control" id="data_inicio" name="data_inicio" value="<?php echo $data_inicio; ?>">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="servico" class="form-label">Data fim</label>
-                                                <input type="date" required class="form-control" id="CPF" name="CPF" value="<?php echo $CPF; ?>">
+                                                <input type="date" required class="form-control" id="data_fim" name="data_fim" value="<?php echo $data_fim; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -135,25 +142,32 @@ if (empty($_GET["ref"])) {
                                                     <h3 class="card-title">Lista de Serviços</h3>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label for="pk_servico" class="form-label">SERVIÇO</label><br>
-                                                            <select class="form-select" aria-label="Disabled select example" >
-                                                                <option selected>--selecione--</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label for="servico" class="form-label">Valor</label>
-                                                            <input type="text" required class="form-control" id="NOME" name="NOME" value="<?php echo $NOME; ?>">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label for="servico" class="form-label">opcoes</label>
-                                                            <input type="text" required class="form-control" id="CPF" name="CPF" value="<?php echo $CPF; ?>">
-                                                        </div>
-                                                    </div>
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>servico</th>
+                                                                <th>Valor</th>
+                                                                <th>opcoes</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <select class="form-select" aria-label="Disabled select example">
+                                                                        <option selected>--selecione--</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" required class="form-control" id="" name="">
+                                                                </td>
+                                                                <td>
+                                                                    <button type="submit" class="btn btn-danger d-none rounded-circle">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                                 <!-- /.card-body -->
                                                 <div class="card-footer text-right">
@@ -166,8 +180,6 @@ if (empty($_GET["ref"])) {
                                                 </div>
                                         </form>
                                     </div>
-                                    <!-- /.card-body -->
-
                             </form>
                         </div>
                     </div>
