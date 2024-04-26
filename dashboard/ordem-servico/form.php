@@ -113,7 +113,7 @@ if (empty($_GET["ref"])) {
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="servico" class="form-label">CPF</label>
-                                                <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>">
+                                                <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>" minlength="14" data-mask="000.000.000-00">
                                             </div>
                                             <div class="col-md-5">
                                                 <label for="servico" class="form-label">Nome</label>
@@ -154,7 +154,34 @@ if (empty($_GET["ref"])) {
                                                             <tr>
                                                                 <td>
                                                                     <select class="form-select" aria-label="Disabled select example">
-                                                                        <option selected>--selecione--</option>
+                                                                    <option selected>--selecione--</option>
+                                                                        <?php
+                                                                        $sql="
+                                                                        SELECT pk_servico, servico
+                                                                        FROM servicos
+                                                                        ORDER BY servico
+                                                                        ";
+
+                                                                        try {
+                                                                          $stmt = $coon->prepare($sql);
+                                                                          $stmt->execute();
+                                                                          $dados = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                                                            foreach($dados as $key=> $row){
+                                                                                echo'
+                                                                                <option value="'.$row->pk_servico.'">'.$row->servico.'</option>';
+
+                                                                            }
+                                                                        } catch (Exception $ex) {
+                                                                            $_SESSION["tipo"] = 'error';
+                                                                            $_SESSION["title"] = 'Ops!';
+                                                                            $_SESSION["msg"] = $ex->getMessage();
+                                                                            header("location: ./");
+                                                                            exit;
+                                                                        }
+                                                                        
+                                                                        
+                                                                        ?>
+                                                                        
                                                                     </select>
                                                                 </td>
                                                                 <td>
@@ -220,19 +247,23 @@ if (empty($_GET["ref"])) {
     <script src="../dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.js"></script>
-    <script>
-        var options = {
-            onKeyPress: function(whatsapp, e, field, options) {
-                var masks = ['(00) 0000-000#', '(00) 00000-0000'];
-                var mask = (whatsapp.length > 14) ? masks[1] : masks[0];
-                $('#whatsapp').mask(mask, options);
-            }
-        };
-        $('#whatsapp').mask('(00) 0000-000#', options);
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
     <script>
+        $("#cpf").blur(function(){
+            // LIMPAR O INPUT NOME
+            $("#nome").val("");
+            //FAZ E REQUISIÇÃO PARA O ARQUIVO "CONSULTAR_CPF.PHP"
+            $.getJSON(
+                'consultar_cpf.php',
+                function(result){
+                    console.log(result)
+                }
+            )
+        })
         $(function() {
 
             $("#theme-mode").click(function() {
