@@ -24,8 +24,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="<?php echo caminhoURL;?>" class="nav-link active">
+          <li class="nav-item">
+            <a href="<?php echo caminhoURL;?>" class="nav-link <?php echo $pagina_ativa == 'home'? 'active' : ''; ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Pagina inicial
@@ -33,7 +33,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo caminhoURL?>/ordem-servico" class="nav-link">
+            <a href="<?php echo caminhoURL?>/ordem-servico" class="nav-link <?php echo $pagina_ativa == 'ordens_servicos'? 'active' : ''; ?>">
               <i class="nav-icon bi bi-cash-coin text-success  mr-1 "></i>
               <p>
                   ordens serviço
@@ -43,7 +43,7 @@
           </li>
           <li class="nav-header">configurações</li>
           <li class="nav-item">
-            <a href="<?php echo caminhoURL?>/clientes" class="nav-link">
+            <a href="<?php echo caminhoURL?>/clientes" class="nav-link <?php echo $pagina_ativa == 'clientes'? 'active' : ''; ?>">
               <i class="nav-icon bi bi-people"></i>
               <p>
                  Clientes
@@ -51,7 +51,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo caminhoURL?>/servicos" class="nav-link">
+            <a href="<?php echo caminhoURL?>/servicos" class="nav-link <?php echo $pagina_ativa == 'servicos'? 'active' : ''; ?>">
               <i class="nav-icon bi bi-tools"></i>
               <p>
                  serviços
