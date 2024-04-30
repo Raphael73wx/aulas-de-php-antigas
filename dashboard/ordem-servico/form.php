@@ -135,29 +135,36 @@ if (empty($_GET["ref"])) {
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <label for="pk_servico" class="form-label">Cód</label>
+                                                <label for="pk_ordem_servico" class="form-label">Cód</label>
                                                 <input readonly required type="text" class="form-control" name="pk_ordem_servico" id="pk_ordem_servico" value="<?php echo $pk_ordem_servico; ?>">
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="servico" class="form-label">CPF</label>
+                                                <label for="cpf" class="form-label">CPF</label>
+                                                <div class="input-group">
                                                 <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>" minlength="14" data-mask="000.000.000-00">
+                                                <span class="input-group-append" >
+                                                        <button id="btn-search" type="button" class="btn btn-default btn-flat">
+                                                            <i class="bi bi-search"></i>
+                                                        </button>
+                                                </span>
+                                                </div>
                                             </div>
                                             <div class="col-md-5">
-                                                <label for="servico" class="form-label">Nome</label>
+                                                <label for="nome" class="form-label">Nome</label>
                                                 <input type="text" required class="form-control" id="nome" name="nome" value="<?php echo $nome; ?>">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label for="pk_servico" class="form-label">Data O.S</label>
-                                                <input required type="date" class="form-control" name="data_ordem_servico" id="data_ordem_servico" value="<?php echo $data_ordem_servico; ?>">
+                                                <label for="data_ordem_servico" class="form-label">Data O.S</label>
+                                                <input readonly type="date" class="form-control" name="data_ordem_servico" id="data_ordem_servico" value="<?php echo $data_ordem_servico; ?>">
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="servico" class="form-label">Data início</label>
+                                                <label for="data_inicio" class="form-label">Data início</label>
                                                 <input type="date" required class="form-control" id="data_inicio" name="data_inicio" value="<?php echo $data_inicio; ?>">
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="servico" class="form-label">Data fim</label>
+                                                <label for="data_fim" class="form-label">Data fim</label>
                                                 <input type="date" required class="form-control" id="data_fim" name="data_fim" value="<?php echo $data_fim; ?>">
                                             </div>
                                         </div>
@@ -183,12 +190,12 @@ if (empty($_GET["ref"])) {
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <select class="form-select" aria-label="Disabled select example">
+                                                                    <select required class="form-select" aria-label="Disabled select example" name="fk_servico[]">
                                                                         <?php echo $options; ?>
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="number" required class="form-control" id="" name="">
+                                                                    <input required type="number" class="form-control" name="valor[]">
                                                                 </td>
                                                                 <!-- <td>
                                                                     <button type="submit" class="btn btn-danger d-none rounded-circle">
@@ -256,7 +263,14 @@ if (empty($_GET["ref"])) {
 
 
     <script>
-        $("#cpf").change(function() {
+
+        $("#cpf").keyup(function(){
+            //limpar input de nome
+            $("#nome").val("");
+
+
+        })
+        $("#btn-search").click(function() {
             // LIMPAR O INPUT NOME
             $("#nome").val("");
             //FAZ E REQUISIÇÃO PARA O ARQUIVO "CONSULTAR_CPF.PHP"
@@ -270,6 +284,7 @@ if (empty($_GET["ref"])) {
                     } else {
                         alert(data['dado']);
                         $('#cpf').val("")
+                        $('#cpf').focus()
                     }
                 }
             )
@@ -279,11 +294,11 @@ if (empty($_GET["ref"])) {
             var newRow = $("<tr>");
             var cols = "";
             cols += '<td>';
-            cols += '<select class="form-select" name="">';
+            cols += '<select class="form-select" name="fk_servico[]">';
             cols += '<?php echo $options;?>';
             cols += '</select>';
             cols += '</td>';
-            cols += '<td><input type="number" class="form-control" name""></td>';
+            cols += '<td><input type="number" class="form-control" name"fk_servico[]"></td>';
             cols += '<td>';
             cols += '<button class="btn btn-danger btn-sm" onclick="RemoveRow(this)" type="button"><i class="fas fa-trash"></i></button>';
             cols += '</td>';
@@ -321,30 +336,3 @@ if (empty($_GET["ref"])) {
 </body>
 
 </html>
-
-<option selected>--selecione--</option>
-<?php
-$sql = "
-                                                                        SELECT pk_servico, servico
-                                                                        FROM servicos
-                                                                        ORDER BY servico
-                                                                        ";
-
-try {
-    $stmt = $coon->prepare($sql);
-    $stmt->execute();
-    $dados = $stmt->fetchAll(PDO::FETCH_OBJ);
-    foreach ($dados as $key => $row) {
-        echo '
-                                                                                <option value="' . $row->pk_servico . '">' . $row->servico . '</option>';
-    }
-} catch (Exception $ex) {
-    $_SESSION["tipo"] = 'error';
-    $_SESSION["title"] = 'Ops!';
-    $_SESSION["msg"] = $ex->getMessage();
-    header("location: ./");
-    exit;
-}
-
-
-?>
