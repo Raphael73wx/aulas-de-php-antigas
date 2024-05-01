@@ -11,7 +11,7 @@ if (isset($_SESSION["tipo"]) && isset($_SESSION["title"]) && isset($_SESSION["ms
             toast: false,
             position:'center',
             showConfirmButton: false,
-            timer: 1000
+            timer: 10000
        });
        Toast.fire({
         icon: '".$_SESSION["tipo"]."',

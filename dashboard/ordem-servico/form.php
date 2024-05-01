@@ -188,21 +188,57 @@ if (empty($_GET["ref"])) {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <select required class="form-select" aria-label="Disabled select example" name="fk_servico[]">
-                                                                        <?php echo $options; ?>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input required type="number" class="form-control" name="valor[]">
-                                                                </td>
-                                                                <!-- <td>
-                                                                    <button type="submit" class="btn btn-danger d-none rounded-circle">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                </td> -->
-                                                            </tr>
+                                                            <?php
+                                                            if (empty($pk_ordem_servico)) {
+                                                                echo'
+                                                                <tr>
+                                                                    <td>
+                                                                        <select required class="form-select" name="fk_servico[]">
+                                                                        '.$options.';
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                         <input required type="number" class="form-control" name="valor[]">
+                                                                    </td>
+                                                                </tr>
+                                                                ';
+                                                            }
+                                                            else{
+                                                                $sql="
+                                                                SELECT s.pk_servico, s.servico, rl.valor
+                                                                FROM servicos s 
+                                                                JOIN rl_servicos_os rl ON rl.fk_servico = s.pk_servico
+                                                                WHERE rl.fk_ordem_servico = :pk_ordem_servico
+                                                                ";
+                                                                try{
+                                                                    $stmt = $coon->prepare($sql);
+                                                                    $stmt->bindParam(':pk_ordem_servico',$pk_ordem_servico);
+                                                                    $stmt->execute();
+
+                                                                    $dados =  $stmt->fetchAll(PDO::FETCH_OBJ);
+
+                                                                    foreach($dados as $key =>$row){
+                                                                        echo'
+                                                                        <tr>
+                                                                            <td>
+                                                                                <select required class="form-select" aria-label="Disabled select example" name="fk_servico[]">
+                                                                                   <option selected value="'.$row->pk_servico.'">'.$row->servico.'</option>
+                                                                                   '.$options.';
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                 <input required type="number" value="'.$row->valor.'" class="form-control" name="valor[]">
+                                                                            </td>
+                                                                        </tr>';
+                                                                    }
+                                                                }
+                                                                catch(PDOException $ex){
+                                                                    $_SESSIOn["tipo"] = " error";
+                                                                    $_SESSIOn["title"] = "Ops!";
+                                                                    $_SESSIOn["tipo"] = $ex->getMessage();
+                                                                }
+                                                            }
+                                                            ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
