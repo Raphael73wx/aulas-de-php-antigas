@@ -37,7 +37,7 @@
               <i class="nav-icon bi bi-cash-coin text-success  mr-1 "></i>
               <p>
                   ordens serviço
-                <span class="right badge badge-danger">15</span>
+                <span class="right badge badge-danger"><?php echo $cdf;?></span>
               </p>
             </a>
           </li>

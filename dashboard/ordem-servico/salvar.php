@@ -89,6 +89,16 @@ if ($_POST) {
             }
             $stmt->execute();
 
+            $sql="
+            UPDATE ordens_servicos SET
+            valor_total =(
+                SELECT SUM(valor)
+                FROM rl_servicos_os
+                WHERE fk_ordem_servico = pk_ordem_servico
+            )
+            WHERE pk_ordem_servico = :pk_ordem_servico
+            ";
+
             $_SESSION["tipo"] = 'success';
             $_SESSION["title"] = 'Oba!';
             $_SESSION["msg"] = 'Registro salvo com sucesso!';

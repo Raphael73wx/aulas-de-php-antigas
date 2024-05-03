@@ -41,15 +41,15 @@ $pagina_ativa = "servicos";
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
     <!-- Main Sidebar Container -->
-    <?php
-    include('../aside.php');
-    ?>
 
     <!-- Navbar -->
     <?php
     include('../nav.php');
     ?>
     <!-- /.navbar -->
+    <?php
+    include('../aside.php');
+    ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

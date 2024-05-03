@@ -39,15 +39,15 @@ $pagina_ativa = "clientes";
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
+    <?php
+    include('../nav.php');
+    ?>
     <!-- Main Sidebar Container -->
     <?php
     include('../aside.php');
     ?>
 
     <!-- Navbar -->
-    <?php
-    include('../nav.php');
-    ?>
     <!-- /.navbar -->
 
     <!-- Content Wrapper. Contains page content -->

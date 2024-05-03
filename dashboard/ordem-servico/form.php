@@ -17,7 +17,7 @@ try {
     $options = '<option value=""> --selecione-- </option>';
 
     foreach ($dados as $key => $row) {
-        $options.='<option value="' . $row->pk_servico . '">' . $row->servico . '</option>';
+        $options .= '<option value="' . $row->pk_servico . '">' . $row->servico . '</option>';
     }
 } catch (Exception $ex) {
     $_SESSION["tipo"] = 'error';
@@ -100,8 +100,6 @@ if (empty($_GET["ref"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-../
-
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
@@ -110,15 +108,17 @@ if (empty($_GET["ref"])) {
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
         <!-- Main Sidebar Container -->
-        <?php
-        include('../aside.php');
-        ?>
-
+      
         <!-- Navbar -->
         <?php
         include('../nav.php');
         ?>
         <!-- /.navbar -->
+
+
+        <?php
+        include('../aside.php');
+        ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -141,12 +141,12 @@ if (empty($_GET["ref"])) {
                                             <div class="col-md-5">
                                                 <label for="cpf" class="form-label">CPF</label>
                                                 <div class="input-group">
-                                                <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>" minlength="14" data-mask="000.000.000-00">
-                                                <span class="input-group-append" >
+                                                    <input type="text" required class="form-control" id="cpf" name="cpf" value="<?php echo $cpf; ?>" minlength="14" data-mask="000.000.000-00">
+                                                    <span class="input-group-append">
                                                         <button id="btn-search" type="button" class="btn btn-default btn-flat">
                                                             <i class="bi bi-search"></i>
                                                         </button>
-                                                </span>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
@@ -190,11 +190,11 @@ if (empty($_GET["ref"])) {
                                                         <tbody>
                                                             <?php
                                                             if (empty($pk_ordem_servico)) {
-                                                                echo'
+                                                                echo '
                                                                 <tr>
                                                                     <td>
                                                                         <select required class="form-select" name="fk_servico[]">
-                                                                        '.$options.';
+                                                                        ' . $options . ';
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -202,37 +202,35 @@ if (empty($_GET["ref"])) {
                                                                     </td>
                                                                 </tr>
                                                                 ';
-                                                            }
-                                                            else{
-                                                                $sql="
+                                                            } else {
+                                                                $sql = "
                                                                 SELECT s.pk_servico, s.servico, rl.valor
                                                                 FROM servicos s 
                                                                 JOIN rl_servicos_os rl ON rl.fk_servico = s.pk_servico
                                                                 WHERE rl.fk_ordem_servico = :pk_ordem_servico
                                                                 ";
-                                                                try{
+                                                                try {
                                                                     $stmt = $coon->prepare($sql);
-                                                                    $stmt->bindParam(':pk_ordem_servico',$pk_ordem_servico);
+                                                                    $stmt->bindParam(':pk_ordem_servico', $pk_ordem_servico);
                                                                     $stmt->execute();
 
                                                                     $dados =  $stmt->fetchAll(PDO::FETCH_OBJ);
 
-                                                                    foreach($dados as $key =>$row){
-                                                                        echo'
+                                                                    foreach ($dados as $key => $row) {
+                                                                        echo '
                                                                         <tr>
                                                                             <td>
                                                                                 <select required class="form-select" aria-label="Disabled select example" name="fk_servico[]">
-                                                                                   <option selected value="'.$row->pk_servico.'">'.$row->servico.'</option>
-                                                                                   '.$options.';
+                                                                                   <option selected value="' . $row->pk_servico . '">' . $row->servico . '</option>
+                                                                                   ' . $options . ';
                                                                                 </select>
                                                                             </td>
                                                                             <td>
-                                                                                 <input required type="number" value="'.$row->valor.'" class="form-control" name="valor[]">
+                                                                                 <input required type="number" value="' . $row->valor . '" class="form-control" name="valor[]">
                                                                             </td>
                                                                         </tr>';
                                                                     }
-                                                                }
-                                                                catch(PDOException $ex){
+                                                                } catch (PDOException $ex) {
                                                                     $_SESSIOn["tipo"] = " error";
                                                                     $_SESSIOn["title"] = "Ops!";
                                                                     $_SESSIOn["tipo"] = $ex->getMessage();
@@ -299,8 +297,7 @@ if (empty($_GET["ref"])) {
 
 
     <script>
-
-        $("#cpf").keyup(function(){
+        $("#cpf").keyup(function() {
             //limpar input de nome
             $("#nome").val("");
 
@@ -331,7 +328,7 @@ if (empty($_GET["ref"])) {
             var cols = "";
             cols += '<td>';
             cols += '<select class="form-select" name="fk_servico[]">';
-            cols += '<?php echo $options;?>';
+            cols += '<?php echo $options; ?>';
             cols += '</select>';
             cols += '</td>';
             cols += '<td><input type="number" class="form-control" name"fk_servico[]"></td>';
