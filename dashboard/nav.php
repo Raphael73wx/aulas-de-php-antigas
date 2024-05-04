@@ -27,7 +27,12 @@ try {
   $total_os = $dados->total_os;
   $cdf = $dados->cdf;
 
-  $pr = ($cdf*100)/$total_os;
+  if($dados->total_os > 0 ){
+    $pr = ($cdf*100)/$total_os;
+  }else{
+    $pr = 0;
+  }
+
 
 } catch (PDOException $ex) {
   $_SESSION["tipo"] = 'error';

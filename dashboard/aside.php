@@ -1,6 +1,6 @@
 <aside id="asideMenu" class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo caminhoURL;?>" class="brand-link">
+    <a href="<?php echo caminhoURL?>" class="brand-link">
       <img src="<?php echo caminhoURL?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">S³</span>
     </a>
@@ -13,7 +13,7 @@
           <img src="<?php echo caminhoURL?>/dist/img/fotop.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $_SESSION["nome_usuario"]?></a>
+          <a href="<?php echo caminhoURL;?>/meu-perfil/" class="d-block"><?php echo $_SESSION["nome_usuario"]?></a>
         </div>
       </div>
 
@@ -37,7 +37,7 @@
               <i class="nav-icon bi bi-cash-coin text-success  mr-1 "></i>
               <p>
                   ordens serviço
-                <span class="right badge badge-danger"><?php echo $cdf;?></span>
+                <span class="right badge badge-danger"><?php echo $total_os;?></span>
               </p>
             </a>
           </li>

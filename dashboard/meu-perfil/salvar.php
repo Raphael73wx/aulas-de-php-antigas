@@ -5,33 +5,43 @@ include("../conexao-pdo.php");
 //verifica se está vindo informações via post
 if ($_POST) {
     //verifica campos obrigatórios
-    if (empty($_POST["servico"])) {
+    if (empty($_POST["nome"]) || empty($_POST["email"])) {
         $_SESSION["tipo"] = 'warning';
         $_SESSION["title"] = 'Ops!';
         $_SESSION["msg"] = 'Por favor, preencha os campos obrigatórios.';
         header("location: ./");
         exit;
     } else {
-        $pk_servico = trim($_POST["pk_servico"]);
-        $servico = trim($_POST["servico"]);
-
+        $pk_usuario = $_SESSION["pk_usuario"];
+        $nome = trim($_POST["nome"]);
+        $email = trim($_POST["email"]);
+        $senha = trim($_POST["senha"]);
+        $foto = $_FILES["foto"];
         try {
-            if (empty($pk_servico)) {
-            $sql = "
-            INSERT INTO servicos (servico)
-            VALUES(:servico)
+            if (empty($senha)) {
+                $sql = "
+             UPDATE usuarios SET
+             nome = :nome,
+             email = :email
+             WHERE pk_usuario = :pk_usuario
              ";
                 $stmt = $coon->prepare($sql);
-                $stmt->bindParam(':servico', $servico);
+                $stmt->bindParam(':nome', $nome);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':pk_usuario', $pk_usuario);
             } else {
-            $sql = "
-            UPDATE servicos SET
-            servico = :servico 
-            WHERE pk_servico = :pk_servico
+                $sql = "
+            UPDATE usuarios SET 
+            nome = :nome,
+            email = :email,
+            senha = :senha
+            WHERE pk_usuario = :pk_usuario
             ";
                 $stmt = $coon->prepare($sql);
-                $stmt->bindParam(':pk_servico', $pk_servico);
-                $stmt->bindParam(':servico', $servico);
+                $stmt->bindParam(':pk_usuario', $pk_usuario);
+                $stmt->bindParam(':nome', $nome);
+                $stmt->bindParam(':senha', $senha);
+                $stmt->bindParam(':email', $email);
             }
 
             //executa inset ou update acima
@@ -51,3 +61,4 @@ if ($_POST) {
         }
     }
 }
+ 
