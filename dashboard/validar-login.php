@@ -26,7 +26,7 @@ if ($_POST) {
 
         //montar sintaxe sql para consultar no banco de dados 
         $stmt = $coon->prepare("    
-        SELECT pk_usuario,nome
+        SELECT pk_usuario,nome,foto
         FROM usuarios
         WHERE email LIKE :email
         AND senha LIKE :senha
@@ -59,7 +59,9 @@ if ($_POST) {
             
             //concatena o primeiro nome com o sobrenome do usuario
             $_SESSION["nome_usuario"] = $nome_usuario[0] ." ". end($nome_usuario);
+            $_SESSION["foto_usuario"] = $row->foto;
             $_SESSION["tempo_login"] = time();
+            
 
             header('Location: ./');
             exit;

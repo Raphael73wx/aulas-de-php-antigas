@@ -97,7 +97,7 @@ if ($stmt->rowCount() > 0) {
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div class="image">
-                                                    <img src="<?php echo caminhoURL ?>/dist/img/fotop.jpg" class="img-circle img-fluid" alt="User Image">
+                                                    <img src="fotos/<?php echo $foto;?>" class="img-circle img-fluid" alt="User Image">
                                                 </div>
                                             </div>
                                             <div class="col-md-10">
