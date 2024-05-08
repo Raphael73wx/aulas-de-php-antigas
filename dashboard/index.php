@@ -219,15 +219,29 @@ $pagina_ativa = "home";
      <?php
      $sql="
      SELECT COUNT(pk_ordem_servico) total,
-     DATE_FORMAT(data_ordem_servico,'%m/%y')mesAno
-     FROM ordens_servicos
-     GROUP BY DATE_FORMAT(data_ordem_servico,'%m/%y')
+     DATE_FORMAT(data_ordem_servico,'%b/%Y')mesAno,
+     (
+        SELECT COUNT(pk_ordem_servico)
+          FROM ordens_servicos
+          WHERE DATE_FORMAT(data_ordem_servico, '%m/%y') = DATE_FORMAT(a.data_ordem_servico,'%m/%Y') 
+          AND data_fim <> '0000-00-00'
+     )total_concluidas
+     FROM ordens_servicos a
+     WHERE data_ordem_servico >= DATE_SUB(data_ordem_servico, INTERVAL 1 YEAR)
+     GROUP BY DATE_FORMAT(data_ordem_servico,'%m/%Y')
      ORDER BY data_ordem_servico
      ";
      try{
       $stmt = $coon->prepare($sql);
       $stmt->execute();
-      $stmt = $stmt->fetchAll(PDo :: FETCH_OBJ);
+      $dados = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+      $meses = array();
+      $valores = array();
+      foreach($dados as $key => $row){
+        array_push($meses,"'$row->mesAno'");
+        array_push($valores, "'$row->total'");
+      }
      }catch(PDOException $e){
      echo "console.log('".$e->getMessage()."');";
      }
@@ -235,9 +249,8 @@ $pagina_ativa = "home";
 
 
      var areaChartData = {
-      labels  : ['Janeiro', 'Fevereiro', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
+      labels  : [<?php echo implode(",",$meses);?>],
+      datasets: [{
           label               : 'O.S. concluídas',
           backgroundColor     : 'rgba(60,141,188,0.9)',
           borderColor         : 'rgba(60,141,188,0.8)',
@@ -257,7 +270,7 @@ $pagina_ativa = "home";
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
+          data                : [<?php echo implode(",",$valores);?>]
         },
       ]
     }
